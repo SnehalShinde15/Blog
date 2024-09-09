@@ -1,0 +1,210 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    color: #333;
+    overflow-x: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #ff512f, #f09819);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#add-blog-button {
+    margin-top: 10px;
+    padding: 12px 25px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#add-blog-button:hover {
+    background-color: #ff8567;
+    transform: translateY(-5px);
+}
+
+/* Blog List */
+#blog-list {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.blog-item {
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeIn 0.5s forwards;
+    color: white;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.blog-item h3 {
+    font-size: 1.8rem;
+    color: white;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.blog-item p {
+    color: #f4f4f4;
+}
+
+.blog-item button {
+    background-color: #ff007f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.blog-item button:hover {
+    background-color: #d60067;
+    transform: translateY(-3px);
+}
+
+.blog-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Add/Edit Blog Form */
+#blog-form {
+    background-color: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 15px;
+    display: none;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: slideIn 0.5s forwards;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#blog-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+#blog-form input, #blog-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    background-color: #fff4f0;
+    color: #333;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+#blog-form input:focus, #blog-form textarea:focus {
+    border-color: #ff6f61;
+}
+
+#submit-blog, #cancel-button {
+    padding: 10px 20px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#cancel-button {
+    background-color: #f64f59;
+}
+
+#submit-blog:hover, #cancel-button:hover {
+    transform: translateY(-3px);
+}
+
+#submit-blog:hover {
+    background-color: #ff8567;
+}
+
+#cancel-button:hover {
+    background-color: #f25555;
+}
+
+/* Add subtle animations for form appearance */
+#blog-form.show {
+    display: block;
+    animation: slideIn 0.5s forwards;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
