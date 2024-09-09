@@ -1,91 +1,123 @@
-const blogList = document.getElementById('blog-list');
-const blogForm = document.getElementById('blog-form');
-const addBlogButton = document.getElementById('add-blog-button');
-const submitBlogButton = document.getElementById('submit-blog');
-const cancelButton = document.getElementById('cancel-button');
-const formTitle = document.getElementById('form-title');
-const titleInput = document.getElementById('title');
-const descriptionInput = document.getElementById('description');
-const contentInput = document.getElementById('content');
 
-let blogs = JSON.parse(localStorage.getItem('blogs')) || [];
-let isEditing = false;
-let editIndex = null;
+const blogs = [
+    {
+        id: 1,
+        title: "A Colorful Blog Post",
+        description: "This blog has a vibrant design and animation!",
+        content: "This is the full content of the blog with improved animation and color palette.",
+        image: "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D",
+        likes: 0
+    },
+    {
+        id: 2,
+        title: "Another Stunning Post",
+        description: "This blog showcases modern web design.",
+        content: "Here's some interesting content for your readers.",
+        image: "https://images.unsplash.com/photo-1707343848552-893e05dba6ac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MXx8dHJhdmVsfGVufDB8fDB8fHww",
+        likes: 0
+    }
+];
+
+const blogSection = document.getElementById('blogs');
 
 function renderBlogs() {
-    blogList.innerHTML = '';
-    blogs.forEach((blog, index) => {
-        const blogItem = document.createElement('div');
-        blogItem.classList.add('blog-item');
-        blogItem.innerHTML = `
-            <h3>${blog.title}</h3>
-            <p>${blog.description}</p>
-            <button onclick="editBlog(${index})">Edit</button>
-            <button onclick="deleteBlog(${index})">Delete</button>
+    blogSection.innerHTML = "";
+    blogs.forEach(blog => {
+        const blogCard = document.createElement('div');
+        blogCard.classList.add('blog-card');
+
+        blogCard.innerHTML = `
+            <img src="${blog.image}" alt="Blog Image">
+            <div class="blog-card-content">
+                <h3>${blog.title}</h3>
+                <p>${blog.description}</p>
+            </div>
+            <div class="blog-card-actions">
+                <button class="like-btn" onclick="likeBlog(${blog.id})">❤ <span>${blog.likes}</span></button>
+                <button onclick="deleteBlog(${blog.id})">Delete</button>
+            </div>
         `;
-        blogList.appendChild(blogItem);
+        blogSection.appendChild(blogCard);
     });
 }
 
-function addBlog(title, description, content) {
-    blogs.push({ title, description, content });
-    localStorage.setItem('blogs', JSON.stringify(blogs));
-    renderBlogs();
-}
-
-function updateBlog(index, title, description, content) {
-    blogs[index] = { title, description, content };
-    localStorage.setItem('blogs', JSON.stringify(blogs));
-    renderBlogs();
-}
-
-function deleteBlog(index) {
-    if (confirm('Are you sure you want to delete this blog?')) {
-        blogs.splice(index, 1);
-        localStorage.setItem('blogs', JSON.stringify(blogs));
+function likeBlog(id) {
+    const blog = blogs.find(b => b.id === id);
+    if (blog) {
+        blog.likes++;
         renderBlogs();
     }
 }
 
-function editBlog(index) {
-    const blog = blogs[index];
-    titleInput.value = blog.title;
-    descriptionInput.value = blog.description;
-    contentInput.value = blog.content;
-    formTitle.textContent = 'Edit Blog';
-    blogForm.style.display = 'block';
-    isEditing = true;
-    editIndex = index;
+
+function deleteBlog(id) {
+    const confirmation = confirm("Are you sure you want to delete this blog?");
+    if (confirmation) {
+        const index = blogs.findIndex(b => b.id === id);
+        if (index !== -1) {
+            blogs.splice(index, 1);
+            renderBlogs();
+        }
+    }
 }
 
-blogForm.addEventListener('submit', function (e) {
+const blogForm = document.getElementById('blog-form');
+
+blogForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const title = titleInput.value;
-    const description = descriptionInput.value;
-    const content = contentInput.value;
+    const title = document.getElementById('blog-title').value;
+    const description = document.getElementById('blog-description').value;
+    const content = document.getElementById('blog-content').value;
+    const imageFile = document.getElementById('blog-image').files[0];
 
-    if (isEditing) {
-        updateBlog(editIndex, title, description, content);
-        isEditing = false;
-        editIndex = null;
-        formTitle.textContent = 'Add New Blog';
+    let imageUrl = 'https://via.placeholder.com/600x400?text=New+Blog'; 
+
+    if (imageFile) {
+        const reader = new FileReader();
+
+        reader.onloadend = function () {
+            imageUrl = reader.result;
+            const newBlog = {
+                id: blogs.length + 1,
+                title,
+                description,
+                content,
+                image: imageUrl,
+                likes: 0
+            };
+
+            blogs.push(newBlog);
+            renderBlogs();
+            blogForm.reset();
+        };
+
+        reader.onerror = function (error) {
+            console.error('Error reading file:', error);
+        };
+
+        reader.readAsDataURL(imageFile); 
     } else {
-        addBlog(title, description, content);
+        const newBlog = {
+            id: blogs.length + 1,
+            title,
+            description,
+            content,
+            image: imageUrl,
+            likes: 0
+        };
+
+        blogs.push(newBlog);
+        renderBlogs();
+        blogForm.reset();
     }
-
-    
-    titleInput.value = '';
-    descriptionInput.value = '';
-    contentInput.value = '';
-    blogForm.style.display = 'none';
-});
-
-addBlogButton.addEventListener('click', function () {
-    blogForm.style.display = 'block';
-});
-
-cancelButton.addEventListener('click', function () {
-    blogForm.style.display = 'none';
 });
 
 renderBlogs();
+
+
+
+
+
+
+
+
